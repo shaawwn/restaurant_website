@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Single Page</title>
+        <style>
+
+        </style>
+        <script>
+            let order = {'item': [], 'price':[]}
+            order.item.push('horumon')
+            order.price.push('9.99')
+ 
+            order.item.push('chirimen')
+            order.price.push(('8.99'))
+
+ 
+            // console.log("Amount: ", order.item.length)
+
+            // order.push({'horumon': '1'})
+            let order_total = 0
+            console.log(order)
+            sessionStorage.setItem('orders',JSON.stringify(order))
+            // console.log(sessionStorage.getItem('orders'))
+            let test_order = JSON.parse(sessionStorage.getItem('orders'))
+            // console.log(test_order.price)
+            for (let counter = 0; counter < test_order.price.length; counter++) {
+                order_total += parseFloat(test_order.price[counter])
+                console.log(order_total.toFixed(2))
+            }
+        </script>
+
+ 
+    </head>
+    
+    <body>
+        Display
+    </body>
+</html>
