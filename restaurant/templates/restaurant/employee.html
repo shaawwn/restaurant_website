@@ -1,8 +1,40 @@
 {% extends 'restaurant/layout.html '%}
 
 {% block body %}
-<h1>Employee page for viewing current ordersss</h1>
+<h1>Employee page for viewing current orders</h1>
 <p>Needs employee login credentials to view</p>
+<div class="all-orders-container">
+    <!-- Create an order div -->
+    <div class="todo-orders-container">
+        {% for order in orders %}
+            <div class="todo-order">
+                <button class="fas fa-arrow-right fa-2x"></button>
+                <h4>{{ order.name }} {{ order.time }} {{ order.phone }}</h4>
+                <div class="todo-order-item-container">
+                    <table class="todo-table">
+                        <tr>
+                            <th>Item</th>
+                            <th>Quantity</th>
+                            <th>Completed</th>
+                        </tr>
+                        {% for item in order.order %}
+                            <tr>
+                                <td>{{ item.item }}</td>
+                                <td>{{ item.quantity }}</td>
+                                <td>X</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div id="finished-orders-container">
+        <!-- Put finished orders here -->
+
+    </div>
+</div>
+
 {% endblock %}
 
 

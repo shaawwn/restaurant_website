@@ -7,7 +7,7 @@
 // Import functions
 
 
-// Storage 
+// ----------------------------------------Storage 
 if (!sessionStorage.getItem('order')) {
     let order = {'items': [], 'price': []}
     sessionStorage.setItem('order', JSON.stringify(order))
@@ -15,13 +15,14 @@ if (!sessionStorage.getItem('order')) {
 
 // Get price
 get_price()
-
-// DOM LOADED
+add_move_button()
+load_modals()
+// ---------------------------------------DOM LOADED
 document.addEventListener('DOMContentLoaded', function() {
 
     // Add modal and modal listeners
     login()
-    register()
+    // register()
     add_modal()
 
     // Get menu item names
@@ -37,19 +38,21 @@ document.addEventListener('DOMContentLoaded', function() {
             modal.style.display = "block";
         }
     }
- 
-})
-load_modals()
+    let order_button = document.getElementsByClassName('btn btn-primary btn-order')[0]
+    order_button.addEventListener('click', customer_details) // Adding () will call the function, no () means the function WILL be called when pressed
 
-function load_modals() {
-    let current_order_link = document.getElementById('current-order')
-    current_order_link.addEventListener('click', function() {
-        // console.log("CURRENT ORDER PRESSED")
-        current_order()
-    })
-        // Add order modal event listeners for all order buttons (REDUNDANT NO NEED)
-        // Copy of above if needed
-}
+    // Add Move order button
+    // let move_button = document.getElementsByClassName('fas fa-arrow-right fa-2x').forEach(item => item.addEventListener('click', function() {
+    //     console.log("Adding button")
+    //     move_button()
+    // }))
+
+    
+})
+// load_modals()
+
+// ---------------------------------------- Functions
+
 
 function check_quantity() {
     let quantity_input = document.getElementsByClassName('quantity-input')
@@ -62,7 +65,7 @@ function check_quantity() {
 }
 
 function quantity_change(event) {
-    // console.log("Checking quantuty...")
+    // console.log("Checking quantity...")
     let input = event.target
     let item_name = input.parentElement.parentElement.parentElement.innerText.split("\n")[0].trim()
     let order = JSON.parse(sessionStorage.getItem('order'))
@@ -81,7 +84,7 @@ function quantity_change(event) {
             // Update the price in the order window
             let new_price = parseFloat(order.items[i].price) * input.value
             item_price[i].innerHTML = new_price
-            total_price.innerHTML = display_price()
+            total_price.innerHTML = `$${display_price()}`
             return
         }
     }
@@ -103,21 +106,54 @@ function remove_item(event) {
     let key = Object.keys(order.items[0])[0]
     let index = 0
     for (let i = 0; i < order.items.length; i++) {
-        console.log(order.items[i][key], item)
+        // console.log(order.items[i][key], item)
         if (order.items[i][key] === item.trim()) {
             index = order.items.indexOf(order.items[i])
             button_clicked.parentElement.parentElement.parentElement.remove() // Moved to inside loop instead of end
-            total_price.innerHTML = display_price()
+            total_price.innerHTML = `$${display_price()}`
             break
         }
     }
     order.items.splice(index, 1)
     sessionStorage.setItem('order', JSON.stringify(order))
-    total_price.innerHTML = display_price()
-
+    total_price.innerHTML = `$${display_price()}`
 }
 
-// MODAL FUNCTIONS
+function add_move_button() {
+    console.log("Adding move button")
+    let move_buttons = document.getElementsByClassName('fas fa-arrow-right fa-2x')
+    for (let i=0; i < move_buttons.length; i++) {
+        move_buttons[i].addEventListener('click', function() {
+            move_order(event)
+        })
+    }
+}
+function move_order(event) {
+    // Move order from todo to finished
+    let to_move_order = event.target.parentElement
+    let move_to = document.getElementById('finished-orders-container')
+    let change_arrow = event.target
+    change_arrow.className = "fas fa-check fa-2x"
+    to_move_order.remove()
+    move_to.append(to_move_order)
+    to_move_order.removeEventListener('click')
+}
+// --------------------------------------- MODAL FUNCTIONS
+
+function load_modals() {
+    let current_order_link = document.getElementById('current-order')
+    let employee_login = document.getElementById('login')
+    current_order_link.addEventListener('click', function() {
+        // console.log("CURRENT ORDER PRESSED")
+        current_order()
+    })
+    // employee_login.addEventListener('click', function() {
+    //     login()
+    // })
+        // Add order modal event listeners for all order buttons (REDUNDANT NO NEED)
+        // Copy of above if needed
+}
+
 // Add modal for all images
 function add_modal() {
     menu_names = get_menu_names()
@@ -166,36 +202,57 @@ function current_order() {
     remove_button()
 }
 
-// Display Login Modal (Maybe remove)
+// Display Customer information Modal (Maybe remove)
+function customer_details() {
+    // console.log("Hitting Button")
+    // modal.style.display = 'block'
+    let modal = document.getElementById('confirm_order_modal')
+    let span = document.getElementsByClassName('confirm-order-close')[0]
+    // let button = document.getElementsByClassName('btn btn-primary btn-order')[0]
+    let order = JSON.parse(sessionStorage.getItem('order'))
+    // console.log("ORDER ITEMS", JSON.parse(order.items))
+    modal.style.display = 'block'
+    let input = document.getElementById('confirm-order-button')
+    // Fetch request to server to post the order, as a javascript array
+    input.onclick = function() {
+        console.log("Fetching order", `${order.items}`)
+        fetch('/restaurant/customer_order', {
+            method: 'POST',
+            body: JSON.stringify({
+                name: document.getElementById('customer-name').value,
+                phone: document.getElementById('customer-phone').value,
+                order
+            })
+        })
+        console.log("Fetched order")
+        // Clear the box (Add class to table row, then set the contents of the row to '')
+    }
+    span.onclick = function() {
+        modal.style.display = 'none'
+    }
+
+    
+}
+
 function login() {
+    console.log("Hitting Button")
     const modal = document.getElementById('login_modal')
-    const span = document.getElementsByClassName('login-close')[0];
-    const login = document.getElementById('login');
+    const span = document.getElementsByClassName('login-close')[0]
+    const login = document.getElementById('login')
+    console.log("Right before onclick")
     login.onclick = function() {
         modal.style.display = 'block';
     }
-    span.onclick = function() {
-        modal.style.display = 'none';
+    span.onclick = function () {
+        modal.style.display = 'none'
     }
-}
 
-// Display Register (Maybe remove)
-function register() {
-    const modal = document.getElementById('register_modal')
-    const span = document.getElementsByClassName('login-close')[1];
-    const register = document.getElementById('register');
-    register.onclick = function() {
-        document.getElementById('login_modal').style.display = 'none'
-        modal.style.display = 'block';
-    }
-    span.onclick = function() {
-        modal.style.display = 'none';
-    }
 }
 
 
 
-// MENU ITEMS
+
+// ------------------------------------------------ MENU ITEMS
 
 // Add items to order, called form inside the page
 function add_item_to_order(id, price) {
@@ -292,7 +349,7 @@ function display_current_order() {
     }
     // Add total_price to overall table
     let total_order_price = document.getElementById('order_price')
-    total_order_price.innerHTML = total_price.toFixed(2)
+    total_order_price.innerHTML = `$${total_price.toFixed(2)}`
     // display_price()
 }
 
@@ -332,7 +389,7 @@ function price_cell(item_price, quantity) {
     quantity = parseInt(quantity)
 
     item_total += item_price * quantity
-    console.log(item_total, item_price, quantity)
+    // console.log(item_total, item_price, quantity)
     column.innerHTML = item_total.toFixed(2) // Could use Math.round()
 
     return [column, item_total]
@@ -343,9 +400,9 @@ function display_price() {
     let order = JSON.parse(sessionStorage.getItem('order'))
     let total_price = 0
     for (let i = 0; i < order.items.length; i++) {
-        console.log("BEFORE", total_price)
+        // console.log("BEFORE", total_price)
         total_price += parseFloat(order.items[i].price) * parseInt(order.items[i].quantity)
-        console.log("AFTER", total_price)
+        // console.log("AFTER", total_price)
     }
     // console.log("TOTAL PRICE", total_price)
     return total_price.toFixed(2)

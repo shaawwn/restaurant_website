@@ -7,7 +7,10 @@ urlpatterns = [
     path("menu", views.menu, name="menu"),
     path("order", views.order, name="order"),
     path("employee", views.employee, name="employee"),
-    path("temp_animate", views.temp_animate, name="temp_animate")
+    path("login", views.login_view, name="login"),
+    path("logout", views.logout_view, name="logout"),
+    path("temp_animate", views.temp_animate, name="temp_animate"),
+    path("customer_order", views.customer_order, name="customer_order")
     
     # API ROUTES
 ]

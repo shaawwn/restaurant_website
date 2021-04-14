@@ -185,7 +185,7 @@ body {
     to {transform: scale(1)}
 }
 
-.close, .login-close, .item-close {
+.close, .confirm-order-close, .item-close, .login-close {
     position: absolute;
     top:15px;
     right: 35px;
@@ -197,17 +197,19 @@ body {
 
 .close:hover,
 .close:focus,
-.login-close:hover,
-.login-close:focus,
+.confirm-order-close:hover,
+.confirm-order-close:focus,
 .item-close:hover,
-.item-close:focus {
+.item-close:focus,
+.login-close:hover,
+.login-close:focus {
     color: #bbb;
     text-decoration: none;
     cursor: pointer;
 }
 
 
-#order_modal, #add-item-modal {
+#order_modal, #add-item-modal, #login_modal {
     position: absolute;
     margin: auto;
     background-color: rgb(212, 167, 94);
@@ -220,8 +222,12 @@ body {
 }
 
 
-
+.item_name {
+    width: 100px;
+}
 .quantity_div {
+    /* width: 20%; */
+    width: 200px;
     position: relative;
     padding: 3px;
     display: flex;
@@ -236,7 +242,7 @@ body {
     /* position: absolute; */
     width: 100px;
     height: 30px;
-    margin-left: 80px;
+    margin-left: 25px;
     text-align: right;
     /* background-color: beige; */
 }
@@ -261,6 +267,10 @@ body {
     
 
 }
+
+.price {
+    width: 75px;
+}
 .btn-order {
     position: relative;
     width: 40%;
@@ -268,6 +278,7 @@ body {
 
 }
 
+/* ANIMATIONS */
 
 @keyframes drop {
     from {
@@ -278,9 +289,12 @@ body {
     }
 }
 
+
+
+
 /* LOGIN REGISTER */
 
-.login-container {
+.confirm-order-container {
     background-color: beige;
     width: 300px;
     padding: 15px;
@@ -291,3 +305,89 @@ body {
 }
 
 
+/* EMPLOYEE SIDE */
+.all-orders-container {
+    display:flex;
+    position: relative;
+}
+.todo-orders-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 45%;
+    height: 90%;
+    background-color: green;
+    color: black;
+    margin-left: 10px;
+    padding: 5px;
+}
+
+.todo-order {
+    background-color: beige;
+    margin-top: 7px;
+    font-size: 16px;
+    padding: 5px;
+    
+    /* width: 50%; */
+
+}
+
+.todo-table > td, th, tr {
+    border: 1px solid black;
+    /* width: 100%; */
+    width: 200px;
+    text-align: right;
+
+}
+
+.todo-order-item-container {
+    position: relative;/* Maybe*/
+    /* margin-left: 50px;
+    margin-right: 50px; */
+    padding:3px;
+}
+
+#finished-orders-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 45%;
+    height: 90%;
+    background-color: green;
+    color: black;
+    margin-left: 100px;
+
+    padding: 5px;
+}
+
+.fa-arrow-right {
+    position: absolute;
+    right: 20px;
+    color: green;
+}
+
+.fa-arrow-right:hover {
+    background-color: rgb(200, 209, 199);
+
+}
+
+.fa-arrow-right:active {
+    background-color: greenyellow;
+    transform: translateY(1px);
+}
+
+.fa-check {
+    position: absolute;
+    right: 20px;
+    color: green;
+}
+
+.fa-check:hover {
+    background-color: rgb(200, 209, 199);
+
+}
+
+.fa-check:active {
+    background-color: greenyellow;
+    transform: translateY(1px);
+}
