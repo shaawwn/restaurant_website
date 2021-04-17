@@ -1,14 +1,16 @@
 {% extends 'restaurant/layout.html '%}
-
+{% load static %}
 {% block body %}
-<h1>Employee page for viewing current orders</h1>
-<p>Needs employee login credentials to view</p>
+<div class="page-header">
+    <h1>CURRENT ORDERS</h1>
+    <button id="archive-button" class="btn btn-primary">Archive Orders</button>
+</div>
 <div class="all-orders-container">
     <!-- Create an order div -->
     <div class="todo-orders-container">
-        {% for order in orders %}
+        {% for order in unfinished_orders %}
             <div class="todo-order">
-                <button class="fas fa-arrow-right fa-2x"></button>
+                <button class="fas fa-arrow-right fa-2x" id={{ order.id }}></button>
                 <h4>{{ order.name }} {{ order.time }} {{ order.phone }}</h4>
                 <div class="todo-order-item-container">
                     <table class="todo-table">
@@ -31,12 +33,36 @@
     </div>
     <div id="finished-orders-container">
         <!-- Put finished orders here -->
-
+            {% for order in finished_orders %}
+            <div class="todo-order">
+                <button class="fas fa-check fa-2x" id={{ order.id }}></button>
+                <h4>{{ order.name }} {{ order.time }} {{ order.phone }}</h4>
+                <div class="todo-order-item-container">
+                    <table class="todo-table">
+                        <tr>
+                            <th>Item</th>
+                            <th>Quantity</th>
+                            <th>Completed</th>
+                        </tr>
+                        {% for item in order.order %}
+                            <tr>
+                                <td>{{ item.item }}</td>
+                                <td>{{ item.quantity }}</td>
+                                <td>X</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
     </div>
 </div>
+
 
 {% endblock %}
 
 
 {% block script %}
+<script src="{% static 'restaurant/employee.js' %}"></script>
 {% endblock %}

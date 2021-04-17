@@ -5,18 +5,22 @@
 
 // Incrementing item quantity in shopping cart 33 minute mark (https://www.youtube.com/watch?v=YeFzkC2awTM&t=29s)
 // Import functions
-
+console.log("Loading scripts regular....")
 
 // ----------------------------------------Storage 
 if (!sessionStorage.getItem('order')) {
     let order = {'items': [], 'price': []}
     sessionStorage.setItem('order', JSON.stringify(order))
 }
-
+// let archive_button = document.getElementById('archive-button')
+// archive_button.addEventListener('click', archive_order)
 // Get price
 get_price()
-add_move_button()
+
+// add_move_button() ##################################################################################################
+
 load_modals()
+
 // ---------------------------------------DOM LOADED
 document.addEventListener('DOMContentLoaded', function() {
 
@@ -40,7 +44,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     let order_button = document.getElementsByClassName('btn btn-primary btn-order')[0]
     order_button.addEventListener('click', customer_details) // Adding () will call the function, no () means the function WILL be called when pressed
-
+    // let archive_button = document.getElementById('archive-button')
+    // console.log("ARCHIVE BUTTON", archive_button)
+    // archive_button.addEventListener('click', archive_order)
     // Add Move order button
     // let move_button = document.getElementsByClassName('fas fa-arrow-right fa-2x').forEach(item => item.addEventListener('click', function() {
     //     console.log("Adding button")
@@ -52,7 +58,9 @@ document.addEventListener('DOMContentLoaded', function() {
 // load_modals()
 
 // ---------------------------------------- Functions
-
+// let archive_button = document.getElementById('archive-button') ####################################################
+// console.log("ARCHIVE BUTTON", archive_button) ####################################################################
+// archive_button.addEventListener('click', archive_order) ################################################################
 
 function check_quantity() {
     let quantity_input = document.getElementsByClassName('quantity-input')
@@ -119,25 +127,57 @@ function remove_item(event) {
     total_price.innerHTML = `$${display_price()}`
 }
 
-function add_move_button() {
-    console.log("Adding move button")
-    let move_buttons = document.getElementsByClassName('fas fa-arrow-right fa-2x')
-    for (let i=0; i < move_buttons.length; i++) {
-        move_buttons[i].addEventListener('click', function() {
-            move_order(event)
-        })
-    }
-}
-function move_order(event) {
-    // Move order from todo to finished
-    let to_move_order = event.target.parentElement
-    let move_to = document.getElementById('finished-orders-container')
-    let change_arrow = event.target
-    change_arrow.className = "fas fa-check fa-2x"
-    to_move_order.remove()
-    move_to.append(to_move_order)
-    to_move_order.removeEventListener('click')
-}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                              MOVED TO EMPLOYEE.JS
+// function add_move_button() {
+//     console.log("Adding move button")
+//     let move_buttons = document.getElementsByClassName('fas fa-arrow-right fa-2x')
+//     for (let i=0; i < move_buttons.length; i++) {
+//         move_buttons[i].addEventListener('click', function() {
+//             move_order(event)
+//         })
+//     }
+// }
+// function move_order(event) {
+//     // Move order from todo to finished, flag order as finished in the DB
+//     let to_move_order = event.target.parentElement
+//     let move_to = document.getElementById('finished-orders-container')
+//     let change_arrow = event.target
+//     console.log("ARROW", typeof change_arrow.id)
+//     change_arrow.className = "fas fa-check fa-2x"
+//     to_move_order.className = "finished-order"
+//     to_move_order.remove()
+//     move_to.append(to_move_order)
+//     // Do a PUT fetch and update the order to "finished=True"
+//     fetch(`restaurant/${parseInt(change_arrow.id)}`, {
+//         method: 'PUT',
+//         body: JSON.stringify({
+//             order_finished: true
+//         })
+//     })
+//     // to_move_order.removeEventListener('click') // Remove event listener(Ok for now before I get stuck on it)
+// }
+
+// function archive_orders() {
+//     console.log("Adding archive button")
+//     // At the end of the night, the manager can 'archive' orders
+//     archive = document.getElementById('archive-button')
+//     old_orders = document.getElementsByClassName('finished-order')
+//     archive.addEventListener('click', function() {
+//         // flag all the finished orders as archived, removing them from the window
+//         for (let i = 0; i < old_orders.length;i++) {
+//             console.log("ORDERS", old_orders[i])
+//             // fetch(`restaurant/parseInt${order_id}`, {
+//             //     method: 'PUT',
+//             //     body: JSON.stringify({
+//             //         archived: true
+//             //     })
+//             // })
+//             // old_orders[i].remove()
+//         }
+//     })
+// }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // --------------------------------------- MODAL FUNCTIONS
 
 function load_modals() {

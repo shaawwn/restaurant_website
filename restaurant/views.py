@@ -57,33 +57,110 @@ def menu(request):
     })
 
 
+def reservation(request):
+    return render(request, 'restaurant/reservation.html')
+
 def order(request):
     return render(request, 'restaurant/order.html')
 
 @login_required
 def employee(request):
-    """The employee page for viewing orders/reservations"""
-    # orders = Order.objects.all()
-    all_orders = []
+    """The employee page for viewing orders/reservations, orders flagged 'Not finished'
+    go on the left, orders flagged 'finished' go on the right"""
 
+
+    unfinished_orders = []
+    finished_orders = []
+    # Get all the CURRENT (non-archived) orders
     orders = Order.objects.all()
     for order in orders:
         order_details ={}
+        order_details['id'] = order.id
         order_details['name'] = order.customer.name
         order_details['phone'] = order.customer.phone_num
         order_details['time'] = order.order_placed
         order_details['order'] = []
         for item in order.customer_order.all():
             order_details['order'].append(item)
-        all_orders.append(order_details)
-        # print(order.customer, order.customer.phone_num, order.order_placed, order.customer_order.all())
-    # Need order, customer info, what items are in the order
-    for order in all_orders:
-        print(order)
-    print(all_orders)
+        if order.order_finished == False:
+            unfinished_orders.append(order_details)
+        elif order.order_finished == True:
+            if order.archived == True:
+                continue
+            finished_orders.append(order_details)
+        # all_orders.append(order_details)
+    # print(unfinished_orders, finished_orders)
+    # for order in unfinished_orders:
+        # print(order['id'])
     return render(request, 'restaurant/employee.html', {
-        'orders': all_orders,
+        # 'orders': all_orders,
+        'unfinished_orders': unfinished_orders,
+        'finished_orders': finished_orders
     })
+
+@csrf_exempt
+@login_required
+def get_order(request, order_id):
+    """Fetch an order by order id so that it can be modified"""
+    print(request, order_id)
+    try:
+        order = Order.objects.get(id=order_id)
+    except Order.DoesNotExist:
+        return JsonResponse({'error': 'Order not found.'}, status=404)
+    
+    # Return order contents (serialize order)
+    if request.method == 'GET':
+        return JsonResponse()
+
+    elif request.method == 'PUT':
+        data = json.loads(request.body)
+        if data.get('order_finished') is not None:
+            order.order_finished = data['order_finished']
+
+        elif data.get('archived') is not None:
+            order.archived = data['archived']
+        order.save()
+        return HttpResponse(status=204)
+    
+    # Must be GET or PUT
+    else:
+        return JsonResponse({
+            'error': "GET or PUT request required."
+        }, status=400)
+
+# @csrf_exempt
+# @login_required
+# def email(request, email_id):
+
+#     # Query for requested email
+#     try:
+#         email = Email.objects.get(user=request.user, pk=email_id)
+#     except Email.DoesNotExist:
+#         return JsonResponse({"error": "Email not found."}, status=404)
+
+#     # Return email contents
+#     if request.method == "GET":
+#         return JsonResponse(email.serialize())
+
+#     # Update whether email is read or should be archived
+#     elif request.method == "PUT":
+#         data = json.loads(request.body)
+#         if data.get("read") is not None:
+#             email.read = data["read"]
+#         if data.get("archived") is not None:
+#             email.archived = data["archived"]
+#         email.save()
+#         return HttpResponse(status=204)
+
+#     # Email must be via GET or PUT
+#     else:
+#         return JsonResponse({
+#             "error": "GET or PUT request required."
+#         }, status=400)
+
+
+
+
 
 # ----------------------------------- ORDERING ITEMS ----------------------------------------
 

@@ -306,6 +306,19 @@ body {
 
 
 /* EMPLOYEE SIDE */
+
+.page-header {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+}
+
+#archive-button {
+    position: absolute;
+    right: 40px;
+    top: 58px;
+}
+
 .all-orders-container {
     display:flex;
     position: relative;
@@ -322,7 +335,7 @@ body {
     padding: 5px;
 }
 
-.todo-order {
+.todo-order, .finished-order {
     background-color: beige;
     margin-top: 7px;
     font-size: 16px;
@@ -390,4 +403,20 @@ body {
 .fa-check:active {
     background-color: greenyellow;
     transform: translateY(1px);
+}
+
+
+/* Reservations */
+
+#reservation-calendar-container {
+    /* background-color: beige; */
+    display: flex;
+    flex-wrap: wrap;
+    width: 770px;
+    justify-content: center;
+}
+
+#weekdays {
+    width: 100%;
+    display: flex;
 }

@@ -53,7 +53,8 @@ class Order(models.Model):
     """Allow customers to make an order online"""
     order_placed = models.DateTimeField(auto_now_add=True)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    # order_finished = models.BooleanField(default=False)
+    order_finished = models.BooleanField(default=False)
+    archived = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.customer.name}'s order placed on {self.order_placed.strftime('%b %d %I %M: %p')}"
