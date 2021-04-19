@@ -36,7 +36,10 @@
                   <!-- Employee Login -->
                   {% if user.is_authenticated %}
                     <li class="nav-item">
-                      <a class="nav-link" href="{% url 'employee' %}" id="employee-page">Employee</a>
+                      <a class="nav-link" href="{% url 'employee_reservations' %}" id="employee-reservations">Reservations</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="{% url 'employee' %}" id="employee-page">Orders</a>
                     </li>
                     <li class="nav-item">
                       <a class="nav-link" href="{% url 'logout' %}" id="logout">Logout</a>

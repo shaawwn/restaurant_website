@@ -41,11 +41,6 @@ class Customer(models.Model):
     def __str__(self):
         return self.name
 
-class Reservation(models.Model):
-    """Allow guests to make a reservation, selecting date and time, as well as how many
-    people
-    """
-    pass
 
 
 
@@ -78,3 +73,20 @@ class OrderItem(models.Model):
     def __str__(self):
         return f"Item: {self.item} #: {self.quantity} ${(self.quantity * self.price)}"
     
+
+class Reservation(models.Model):
+    """Customers can make a reservation including Name, date, time, and how many people"""
+    name = models.CharField(max_length=64, blank=True)
+    party_size = models.IntegerField(default=1)
+    reservation_time = models.TimeField(default=None, blank=True)
+    reservation_date = models.DateField(default=None, blank=True)
+    customer_phone = models.CharField(max_length=10, blank=True)
+
+    def serialize(self):
+        return {
+            'name': self.name,
+            'party_size': self.party_size,
+            'reservation_time': self.reservation_time.strftime("%H:%M"),
+            'reservation_date': self.reservation_date.strftime("%m-%d-%Y"),
+            'customer_phone': self.customer_phone
+        }

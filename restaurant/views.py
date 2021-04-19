@@ -5,9 +5,10 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect
 from django.core import serializers
-from .models import MenuItem, Customer, Order, OrderItem
+from .models import MenuItem, Customer, Order, OrderItem, Reservation
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from datetime import datetime, date
 
 # Create your views here.
 
@@ -98,6 +99,28 @@ def employee(request):
         'finished_orders': finished_orders
     })
 
+def get_reservations(request, reservation_date):
+    """Get reservations for a given calendar date"""
+    print("At least getting ths far??")
+    # reservations = Reservation.objects.all()
+    reservation_date = datetime.strptime(reservation_date, '%Y-%m-%d')
+    print("DATE:", reservation_date.date(), type(reservation_date.date()))
+    # print(date, type(date), datetime.strptime(date, '%Y-%m-%d'), type(datetime.strptime(date, '%Y-%m-%d')))
+    
+    reservations = Reservation.objects.filter(
+        reservation_date=reservation_date.date()
+    )
+    for r in reservations:
+        print(r.reservation_date, type(r.reservation_date))
+    return JsonResponse([reservation.serialize() for reservation in reservations], safe=False)
+
+
+@csrf_exempt
+@login_required
+def employee_reservations(request):
+    # Filter reservations by date (get reservations for that date)
+    return render(request, 'restaurant/employee-reservations.html')
+
 @csrf_exempt
 @login_required
 def get_order(request, order_id):
@@ -128,37 +151,10 @@ def get_order(request, order_id):
             'error': "GET or PUT request required."
         }, status=400)
 
-# @csrf_exempt
-# @login_required
-# def email(request, email_id):
-
-#     # Query for requested email
-#     try:
-#         email = Email.objects.get(user=request.user, pk=email_id)
-#     except Email.DoesNotExist:
-#         return JsonResponse({"error": "Email not found."}, status=404)
-
-#     # Return email contents
-#     if request.method == "GET":
-#         return JsonResponse(email.serialize())
-
-#     # Update whether email is read or should be archived
-#     elif request.method == "PUT":
-#         data = json.loads(request.body)
-#         if data.get("read") is not None:
-#             email.read = data["read"]
-#         if data.get("archived") is not None:
-#             email.archived = data["archived"]
-#         email.save()
-#         return HttpResponse(status=204)
-
-#     # Email must be via GET or PUT
-#     else:
-#         return JsonResponse({
-#             "error": "GET or PUT request required."
-#         }, status=400)
-
-
+@csrf_exempt
+@login_required
+def get_reservation(request, reservation_id):
+    pass
 
 
 
@@ -200,6 +196,27 @@ def customer_order(request):
 
     return JsonResponse({"message": "Order placed successfully."}, status=201)
 
+
+@csrf_exempt
+def customer_reservation(request):
+    """Customer reservations"""
+    
+    if request.method != 'POST':
+        return JsonResponse({"error": "POST request required"}, status=400)
+    print("Making reservation....")
+
+    reservation = json.loads(request.body)
+
+    print("RESERVATION", reservation)
+    reservation = Reservation(
+        name = reservation['name'],
+        party_size = reservation['party_size'],
+        reservation_time = datetime.strptime(reservation['reservation_time'], '%H:%M'),
+        reservation_date = datetime.strptime(reservation['reservation_date'], '%m/%d/%Y'),
+        customer_phone = reservation['customer_phone']
+    )
+    reservation.save()
+    return JsonResponse({"message": "Reservation placed successfully"}, status=201)
 
 # ---------------- TESTING ----------------
 
