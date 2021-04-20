@@ -1,0 +1,60 @@
+{% extends 'restaurant/layout.html' %}
+{% load static%}
+
+{% block body%}
+<h1 style="text-align: center;">Reservations</h1>
+<div id="reservation-calendar-container">
+    <div id="calendar-header">
+        <div id="month-display"></div>
+        <div>
+            <button class="btn btn-primary" id="back-button">Back</button>
+            <button class="btn btn-primary" id="next-button">Next</button>
+        </div>
+    </div>
+    <div id="weekdays">
+        <div class="weekday-header">Sunday</div>
+        <div class="weekday-header">Monday</div>
+        <div class="weekday-header">Tuesday</div>
+        <div class="weekday-header">Wednesday</div>
+        <div class="weekday-header">Thursday</div>
+        <div class="weekday-header">Friday</div>
+        <div class="weekday-header">Saturday</div>
+    </div>
+    <div id="reservation-calendar"></div>
+
+        
+
+
+    <!-- Delete reservation modal, maybe no need -->
+</div>
+
+   <!-- Modals -->
+   <div id="reservation-modal">
+        <h2>Make Reservation</h2>
+
+        <!-- Enter Time and name -->
+        <!-- Add modified make reservation here with plus mark -->
+        <form action="" method="post"></form>
+            {% csrf_token %}
+            <input id="reservation-name-input" placeholder="Enter Name">
+            <input id="reservation-num-people" type="number" placeholder="Party Size">
+            <input id="reservation-time-input" type="time"  min="18:00:00" max="23:00:00" placeholder="Enter time">
+            <input id="reservation-phone-input" placeholder="Phone #">
+            <button id="reservation-button">Confirm</button>
+            <button id="reservation-cancel-button">Cancel</button>
+        </form>
+    </div>
+    <div id="show-reservations-modal">
+        <span class="reservation-close">&times;</span>
+        <h1>Today's Reservations</h1>
+        <div id='show-reservations'>
+
+        </div>
+    </div>
+    <div id="modal-backdrop"></div>
+{% endblock %}
+
+{% block script %}
+    <!-- <script src="{% static 'restaurant/revised_calendar.js' %}"></script> -->
+    <script src="{% static 'restaurant/calendar.js' %}"></script>
+{% endblock %}

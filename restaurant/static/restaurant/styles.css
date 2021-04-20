@@ -479,10 +479,24 @@ body {
     background-color: rgb(204, 204, 163);
 }
 
+#current-day:hover {
+    background-color: rgb(185, 195, 163)
+}
 .padding {
     cursor: default;
     /* background-color: green; */
     box-shadow: none;
+}
+
+.padding:hover {
+    background-color: beige;
+}
+.past-date {
+    background-color: rgb(187, 187, 166);
+}
+
+.past-date:hover {
+    background-color: rgb(187, 187, 166);
 }
 
 #modal-backdrop {
@@ -492,7 +506,8 @@ body {
     z-index: 10;
     width: 100vw;
     height: 100vh;
-    position: absolute;
+    /* position: absolute; */
+    position: fixed;
     background-color: rgba(0,0,0,0.8)
 }
 
@@ -504,7 +519,7 @@ body {
     box-shadow: 0px 0px 3px black;
     border-radius: 5px;
     width:350px;
-    top:100px;
+    top:200px;
     left: calc(50% - 175px);
     position: absolute;
 
@@ -540,6 +555,10 @@ body {
     margin:12px;
     width: 225px;
     position: relative;
+}
+
+.reservation-clicked {
+    background-color: grey;
 }
 
 .fa-plus {

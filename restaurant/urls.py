@@ -17,5 +17,6 @@ urlpatterns = [
     
     # API ROUTES
     path("restaurant/<int:order_id>", views.get_order, name="get_order"),
-    path("reservations/<str:reservation_date>", views.get_reservations, name="get_reservations")
+    path("reservations/<str:reservation_date>", views.get_reservations, name="get_reservations"),
+    path("reservation/<int:reservation_id>", views.get_reservation, name="get_reservation")
 ]

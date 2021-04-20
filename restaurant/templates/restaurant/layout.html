@@ -24,16 +24,9 @@
                   <li class="nav-item">
                     <a class="nav-link" href="{% url 'menu' %}">Menu</a>
                   </li>
-                  <li class="nav-item">
+                  <!-- <li class="nav-item">
                     <a class="nav-link" href="{% url 'reservation' %}">Reservations</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#">About Us</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#">Contact</a>
-                  </li>
-                  <!-- Employee Login -->
+                  </li> -->
                   {% if user.is_authenticated %}
                     <li class="nav-item">
                       <a class="nav-link" href="{% url 'employee_reservations' %}" id="employee-reservations">Reservations</a>
@@ -51,10 +44,15 @@
                   <!-- Increment the badge by 1 for every item added, or just add some visual cue that cart has items in it -->
 
                   <li class="nav-item">
-                    <a class="nav-link" href="#" id="current-order">Current Order<span class="badge badge-secondary">&#9728</span></a>
+                    <a class="nav-link" href="#" id="current-order">Current Order</a>
+                    <!-- <span class="badge badge-secondary">&#9728</span> -->
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'reservation' %}">Reservations</a>
                   </li>
                     <li class="nav-item">
-                      <a class="nav-link" href="#" id="login">Employee Login<span class="badge badge-secondary">&#9728</span></a>
+                      <a class="nav-link" href="#" id="login">Employee Login</a>
+                      <!-- <span class="badge badge-secondary">&#9728</span> -->
                     </li>
                   {% endif %}
                   <!-- If an employee is logged in, create a log out button -->
@@ -135,7 +133,7 @@
           {% endblock %}
     </body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
-    <script src="{% static 'restaurant/scriptsprime.js' %}"></script>
+    <script src="{% static 'restaurant/scripts.js' %}"></script>
     <script src="{% static 'restaurant/styles.css' %}"></script>
     {% block script %}
     {% endblock %}

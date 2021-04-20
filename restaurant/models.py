@@ -81,12 +81,15 @@ class Reservation(models.Model):
     reservation_time = models.TimeField(default=None, blank=True)
     reservation_date = models.DateField(default=None, blank=True)
     customer_phone = models.CharField(max_length=10, blank=True)
+    completed = models.BooleanField(default=False)
 
     def serialize(self):
         return {
+            'id': self.id,
             'name': self.name,
             'party_size': self.party_size,
             'reservation_time': self.reservation_time.strftime("%H:%M"),
             'reservation_date': self.reservation_date.strftime("%m-%d-%Y"),
-            'customer_phone': self.customer_phone
+            'customer_phone': self.customer_phone,
+            'completed': self.completed
         }

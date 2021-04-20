@@ -101,18 +101,36 @@ def employee(request):
 
 def get_reservations(request, reservation_date):
     """Get reservations for a given calendar date"""
-    print("At least getting ths far??")
-    # reservations = Reservation.objects.all()
-    reservation_date = datetime.strptime(reservation_date, '%Y-%m-%d')
-    print("DATE:", reservation_date.date(), type(reservation_date.date()))
-    # print(date, type(date), datetime.strptime(date, '%Y-%m-%d'), type(datetime.strptime(date, '%Y-%m-%d')))
-    
-    reservations = Reservation.objects.filter(
-        reservation_date=reservation_date.date()
-    )
-    for r in reservations:
-        print(r.reservation_date, type(r.reservation_date))
-    return JsonResponse([reservation.serialize() for reservation in reservations], safe=False)
+
+    if request.method == 'GET': # Put into a GET conditional (works without the condition)
+        reservation_date = datetime.strptime(reservation_date, '%Y-%m-%d')
+        
+        reservations = Reservation.objects.filter(
+            reservation_date=reservation_date.date()
+        )
+
+        return JsonResponse([reservation.serialize() for reservation in reservations], safe=False)
+
+@csrf_exempt
+@login_required
+def get_reservation(request, reservation_id):
+    """Get a single reservation's details"""
+
+    print("It's at least triggering", reservation_id)
+    try:
+        print("GOT RESERVATION")
+        reservation = Reservation.objects.get(id=reservation_id)
+    except Reservation.DoesNotExist:
+        return JsonResponse({'error': 'Reservation not found'}, status=404)
+    if request.method == 'PUT':
+        print("PUT?")
+        data = json.loads(request.body)
+        if data.get('completed') is not None:
+            reservation.completed = data['completed']
+        reservation.save()
+        return HttpResponse(status=204)
+    else:
+        return HttpResponse(status=404)
 
 
 @csrf_exempt
@@ -151,10 +169,6 @@ def get_order(request, order_id):
             'error': "GET or PUT request required."
         }, status=400)
 
-@csrf_exempt
-@login_required
-def get_reservation(request, reservation_id):
-    pass
 
 
 
@@ -212,7 +226,7 @@ def customer_reservation(request):
         name = reservation['name'],
         party_size = reservation['party_size'],
         reservation_time = datetime.strptime(reservation['reservation_time'], '%H:%M'),
-        reservation_date = datetime.strptime(reservation['reservation_date'], '%m/%d/%Y'),
+        reservation_date = datetime.strptime(reservation['reservation_date'], '%Y-%m-%d'), #changed from '%m/%d/%Y
         customer_phone = reservation['customer_phone']
     )
     reservation.save()
