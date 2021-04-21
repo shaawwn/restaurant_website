@@ -39,7 +39,7 @@ function add_modal() {
 
         let img = document.createElement('img')
         img.setAttribute('id', `img${counter}`)
-        img.setAttribute('src', `/images/static/${menu_names[counter]}.jpg`)
+        img.setAttribute('src', `/images/static/${menu_names[counter]}.jpg`) // Change to correct directory when using AWS
         img.setAttribute('class', 'modal-content')
 
         modal.append(span)

@@ -38,6 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Additional apps
+    # 'storages',
 ]
 
 MIDDLEWARE = [
@@ -82,6 +85,7 @@ DATABASES = {
 }
 
 AUTH_USER_MODEL = "restaurant.User"
+DEFAULT_AUTO_FIELD='django.db.models.AutoField'
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -119,6 +123,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 MEDIA_URL = '/images/'
 
@@ -127,3 +132,28 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'images')
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
+# white noise staic 
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# django_heroku.settings(locals())
+
+
+
+# AMAZON AWS HOSTING 
+# STATIC_URL = 'https://takopage-bucket.us-west-2.amazonaws.com/'
+# AWS_ACCESS_KEY_ID = ''
+# AWS_SECRET_ACCESS_KEY = ''
+# AWS_STORAGE_BUCKET_NAME = 'takopage-bucket'
+# AWS_S3_HOST = 'https://s3.us-west-2.amazonaws.com'
+# AWS_S3_REGION_NAME="us-west-2"
+
+
+# AWS_S3_FILE_OVERWRITE = False
+# AWS_DEFAULT_ACL = None
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# Requirements
+# django-storages 1.11.1
+# boto3 1.17.54
+
