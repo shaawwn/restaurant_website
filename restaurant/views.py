@@ -89,10 +89,7 @@ def employee(request):
             if order.archived == True:
                 continue
             finished_orders.append(order_details)
-        # all_orders.append(order_details)
-    # print(unfinished_orders, finished_orders)
-    # for order in unfinished_orders:
-        # print(order['id'])
+
     return render(request, 'restaurant/employee.html', {
         # 'orders': all_orders,
         'unfinished_orders': unfinished_orders,
@@ -102,7 +99,7 @@ def employee(request):
 def get_reservations(request, reservation_date):
     """Get reservations for a given calendar date"""
 
-    if request.method == 'GET': # Put into a GET conditional (works without the condition)
+    if request.method == 'GET': 
         reservation_date = datetime.strptime(reservation_date, '%Y-%m-%d')
         
         reservations = Reservation.objects.filter(
@@ -239,54 +236,4 @@ def temp_animate(request):
     return render(request, 'restaurant/temp_animate.html')
 
 
-#  ------------------------------- EXAMPLE CODE -------------------------------------
 
-# @csrf_exempt
-# @login_required
-# def compose(request):
-#     print("Request.POST: ", request.POST, "Request: ", request, "Request body: ", request.body)
-#     # Composing a new email must be via POST
-#     if request.method != "POST":
-#         return JsonResponse({"error": "POST request required."}, status=400)
-
-#     # Check recipient emails (That a recipient is given in the form)
-#     data = json.loads(request.body) # .loads() desrializes a JSON object (decodes the object so Python can read it)
-#     emails = [email.strip() for email in data.get("recipients").split(",")]
-#     if emails == [""]:
-#         return JsonResponse({
-#             "error": "At least one recipient required."
-#         }, status=400)
-
-#     # Convert email addresses to users
-#     recipients = []
-#     for email in emails:
-#         try:
-#             user = User.objects.get(email=email) # I think this is a username-email address relationship, checks email to username
-#             recipients.append(user)
-#         except User.DoesNotExist:
-#             return JsonResponse({
-#                 "error": f"User with email {email} does not exist."
-#             }, status=400)
-
-#     # Get contents of email (Retrieves the body of the email, which is the decoded JSON object)
-#     subject = data.get("subject", "")
-#     body = data.get("body", "")
-
-#     # Create one email for each recipient, plus sender
-#     users = set()
-#     users.add(request.user)
-#     users.update(recipients)
-#     for user in users: # Creates an Email() model then saves it to DB
-#         email = Email(
-#             user=user,
-#             sender=request.user,
-#             subject=subject,
-#             body=body,
-#             read=user == request.user
-#         )
-#         email.save()
-#         for recipient in recipients:
-#             email.recipients.add(recipient) # After saving email, add the recipients to the email (add email to recipients..., then save)
-#         email.save()
-
-#     return JsonResponse({"message": "Email sent successfully."}, status=201)

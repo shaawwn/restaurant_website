@@ -53,19 +53,10 @@ class Order(models.Model):
 
     def __str__(self):
         return f"{self.customer.name}'s order placed on {self.order_placed.strftime('%b %d %I %M: %p')}"
-"""This will create an order instance, for customer name
-    can user Order.customer to add new items to customers order
-    new_order = Order.customer.item_set.create(MenuItem, other details)
-When you need the order, can filter orders by customer name
-
-When customers place order, prompt for name and phone number, then confirm order and place, should then be
-able to check the order from employee page.
-"""
-
 
 class OrderItem(models.Model):
     """An order item is a JSON object sent to the server inside an order array"""
-    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="customer_order")
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, default=None, related_name="customer_order")
     item = models.CharField(max_length=50)
     quantity = models.IntegerField(default = 0)
     price = models.DecimalField(max_digits=5, decimal_places=2)
