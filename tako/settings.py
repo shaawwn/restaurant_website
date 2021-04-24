@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'n49+8)+rbd=vdgt(x*r5*y^_0gr6@=(l0w&6qwl6jt+cr*)(=9'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -143,8 +143,8 @@ STATICFILES_DIRS = (
 # django_heroku.settings(locals())
 
 
-AWS_ACCESS_KEY_ID = 'AKIAQCUZQZ2SOX3EDAEV' # This needs to be secure in an actual page
-AWS_SECRET_ACCESS_KEY = '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'
+AWS_ACCESS_KEY_ID = 'AWS_ACCESS_KEY_ID' # This needs to be secure in an actual page
+AWS_SECRET_ACCESS_KEY = 'AWS_SECRET_ACCESS_KEY'
 AWS_STORAGE_BUCKET_NAME = 'takopage-bucket'
 AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = 'public-read'
