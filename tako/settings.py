@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import django_heroku
+import dj_database_url
+from decouple import config
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -66,6 +69,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
             ],
         },
     },
@@ -139,20 +143,25 @@ STATICFILES_DIRS = (
 # django_heroku.settings(locals())
 
 
+AWS_ACCESS_KEY_ID = 'AKIAQCUZQZ2SOX3EDAEV' # This needs to be secure in an actual page
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'takopage-bucket'
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = 'public-read'
+AWS_LOCATION = 'static'
 
-# AMAZON AWS HOSTING 
-# STATIC_URL = 'https://takopage-bucket.us-west-2.amazonaws.com/'
-# AWS_ACCESS_KEY_ID = ''
-# AWS_SECRET_ACCESS_KEY = ''
-# AWS_STORAGE_BUCKET_NAME = 'takopage-bucket'
-# AWS_S3_HOST = 'https://s3.us-west-2.amazonaws.com'
-# AWS_S3_REGION_NAME="us-west-2"
+STATICFILE_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+
+STATIC_URL = "/static/"
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+MEDIA_URL = 'https://takopage-bucket.s3.amazonaws.com/media/'
+DEFAULT_FILE_STORAGE = 'restaurant.storages.MediaStore'
 
 
-# AWS_S3_FILE_OVERWRITE = False
-# AWS_DEFAULT_ACL = None
-# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-# STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
 # Requirements
 # django-storages 1.11.1
 # boto3 1.17.54

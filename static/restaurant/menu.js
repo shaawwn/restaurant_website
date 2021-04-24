@@ -36,10 +36,9 @@ function add_modal() {
         span.onclick = function() {
             modal.style.display = 'none'
         }
-
         let img = document.createElement('img')
         img.setAttribute('id', `img${counter}`)
-        img.setAttribute('src', `/images/static/${menu_names[counter]}.jpg`) // Change to correct directory when using AWS
+        img.setAttribute('src', `https://takopage-bucket.s3.amazonaws.com/media/images/${menu_names[counter].toLowerCase()}.jpg`) // Change to correct directory when using AWS
         img.setAttribute('class', 'modal-content')
 
         modal.append(span)

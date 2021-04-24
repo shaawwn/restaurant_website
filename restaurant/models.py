@@ -25,7 +25,7 @@ class MenuItem(models.Model):
     # Image is wonky gonna have to test it out
     # Also if app goes live it probably will link to an image hosting service
     # Not hosting image itself, so may need to change to url in future
-    image = models.ImageField(upload_to="static")
+    image = models.ImageField(upload_to="images/")
 
     def __str__(self):
         return self.name
