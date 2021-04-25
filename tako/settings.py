@@ -24,6 +24,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY')
+# SECRET_KEY='n49+8)+rbd=vdgt(x*r5*y^_0gr6@=(l0w&6qwl6jt+cr*)(=9'
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -143,8 +145,8 @@ STATICFILES_DIRS = (
 # django_heroku.settings(locals())
 
 
-AWS_ACCESS_KEY_ID = 'AWS_ACCESS_KEY_ID' # This needs to be secure in an actual page
-AWS_SECRET_ACCESS_KEY = 'AWS_SECRET_ACCESS_KEY'
+AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID') # This needs to be secure in an actual page
+AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = 'takopage-bucket'
 AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = 'public-read'
