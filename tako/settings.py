@@ -164,7 +164,4 @@ DEFAULT_FILE_STORAGE = 'restaurant.storages.MediaStore'
 
 
 
-# Requirements
-# django-storages 1.11.1
-# boto3 1.17.54
-
+django_heroku.settings(locals())
