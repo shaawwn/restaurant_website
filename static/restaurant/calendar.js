@@ -1,5 +1,5 @@
 // Merge calendar and revised calendar to one file
-
+// Followed PortEXE's excellent calendar tutorial when making the calculator, link: https://youtu.be/m9OSBJaQTlM
 let nav = 0;
 let clicked = null;
 const calendar = document.getElementById('reservation-calendar')
